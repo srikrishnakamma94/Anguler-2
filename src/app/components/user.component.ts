@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'user',
-    template: `<h1>
+    template: ` <h1>
                 Hello {{name}}
+                </h1>
                 <p>
                   Email {{email}}
                 </p>
@@ -19,7 +20,11 @@ import { Component } from '@angular/core';
                     <li *ngFor="let hobby of habbies" >{{hobby}} </li>
                 </ul>
                 </div>
-             </h1>`,
+                <form>
+                    <label> Name : </label> <br/>
+                    <input type="text" name="name" [(ngModel)]="name"/>
+                </form>
+             `,
 })
 export class UserComponent {
     name: string;
