@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'user',
     template: ` <h1>
-                Hello {{name}}
+                {{name}}
                 </h1>
                 <p>
                   Email {{email}}
@@ -15,14 +15,27 @@ import { Component } from '@angular/core';
                 <div *ngIf="showHobbs">
                 <h3>Hobbies: </h3>
                 {{habbies}}
-
                 <ul>
                     <li *ngFor="let hobby of habbies" >{{hobby}} </li>
                 </ul>
+                <form (submit)="addHobbiy(hobbby.value)">
+                    <label> Add Hobbis : </label> <br/>
+                    <input type="text" #hobbby/> <br/>
+                </form>
                 </div>
+                <hr/>
+                <h3> Edit User </h3>
                 <form>
                     <label> Name : </label> <br/>
-                    <input type="text" name="name" [(ngModel)]="name"/>
+                    <input type="text" name="name" [(ngModel)]="name"/> <br/>
+                    <label> Email : </label> <br/>
+                    <input type="text" name="email" [(ngModel)]="email"/> <br/>
+                    <label> City : </label> <br/>
+                    <input type="text" name="address.city" [(ngModel)]="address.city"/> <br/>
+                    <label> State : </label> <br/>
+                    <input type="text" name="address.state" [(ngModel)]="address.state"/> <br/>
+                    <label> Street : </label> <br/>
+                    <input type="text" name="address.pinCode" [(ngModel)]="address.pinCode"/> <br/>
                 </form>
              `,
 })
@@ -51,6 +64,10 @@ export class UserComponent {
         } else {
             this.showHobbs = true;
         }
+    }
+
+    addHobbiy(hobby){
+        this.habbies.push(hobby);
     }
 }
 
