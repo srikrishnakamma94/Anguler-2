@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import {PostsService} from '../services/posts.service';
 @Component({
     selector: 'user',
     template: ` <h1>
@@ -16,11 +16,13 @@ import { Component } from '@angular/core';
                 <h3>Hobbies: </h3>
                 {{habbies}}
                 <ul>
-                    <li *ngFor="let hobby of habbies" >{{hobby}} </li>
+                    <li *ngFor="let hobby of habbies; let i = index" >
+                        {{hobby}} <button (click)="delteHobby(i)"> X </button>
+                    </li>
                 </ul>
-                <form (submit)="addHobbiy(hobbby.value)">
+                <form (submit)="addHobbiy(hobbsdsddby.value)">
                     <label> Add Hobbis : </label> <br/>
-                    <input type="text" #hobbby/> <br/>
+                    <input type="text" #hobbsdsddby/> <br/>
                 </form>
                 </div>
                 <hr/>
@@ -37,7 +39,14 @@ import { Component } from '@angular/core';
                     <label> Street : </label> <br/>
                     <input type="text" name="address.pinCode" [(ngModel)]="address.pinCode"/> <br/>
                 </form>
+                <hr/>
+                <h3>Posts : </h3>
+                <div *ngFor="let post of posts">
+                    <h3> {{post.id}} : {{post.title}} </h3>
+                    <p> {{post.body}} </p>
+                </div>
              `,
+    providers: [PostsService]
 })
 export class UserComponent {
     name: string;
@@ -45,8 +54,9 @@ export class UserComponent {
     address: address;
     habbies: string[];
     showHobbs: boolean;
+    posts: Post[];
 
-    constructor() {
+    constructor(private postsService: PostsService) {
         this.name = 'Krishna';
         this.email = 'srikrishnakamma@gmail.com';
         this.address = {
@@ -56,18 +66,25 @@ export class UserComponent {
         };
         this.habbies = ['eating', 'reading1', 'enjoying'];
         this.showHobbs = false;
+        this.postsService.getPosts().subscribe(posts => {
+            this.posts = posts;
+        });
     }
 
-    toggleHobbis(){
-        if(this.showHobbs) {
+    toggleHobbis() {
+        if (this.showHobbs) {
             this.showHobbs = false;
         } else {
             this.showHobbs = true;
         }
     }
 
-    addHobbiy(hobby){
-        this.habbies.push(hobby);
+    addHobbiy(hobbsdsddby: string) {
+        this.habbies.push(hobbsdsddby);
+    }
+
+    delteHobby(i: number) {
+            this.habbies.splice(i, 1);
     }
 }
 
@@ -76,4 +93,10 @@ interface address {
     city: string;
     state: string;
     pinCode: string;
+}
+
+interface Post {
+    id: number;
+    title: string;
+    body: string;
 }
